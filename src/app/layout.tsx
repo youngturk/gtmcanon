@@ -45,6 +45,15 @@ export default function RootLayout({
             >
               Mert Iseri
             </a>
+            {" & "}
+            <a
+              href="https://www.linkedin.com/in/uqarni/"
+              className="hover:text-[var(--foreground)] transition-colors underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Uzair Qarni
+            </a>
           </p>
         </footer>
       </body>

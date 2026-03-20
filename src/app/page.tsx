@@ -41,6 +41,24 @@ export default function Home() {
           >
             GitHub
           </a>
+          {" & "}
+          <a
+            href="https://www.linkedin.com/in/uqarni/"
+            className="text-[var(--accent)] hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Uzair Qarni
+          </a>
+          {" · "}
+          <a
+            href="https://github.com/uqarni"
+            className="text-[var(--accent)] hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
         </p>
         <div className="flex gap-4">
           <a

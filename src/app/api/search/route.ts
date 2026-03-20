@@ -4,33 +4,30 @@ import { NextRequest, NextResponse } from "next/server";
 import { getRegistry } from "@/lib/registry";
 import { search } from "@/lib/search";
 import { logQuery, type KVNamespace } from "@/lib/analytics";
+import { corsHeaders } from "@/lib/cors";
 
 const MAX_QUERY_LENGTH = 500;
 
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "https://gtmcanon.com",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
-
-export async function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+export async function OPTIONS(request: NextRequest) {
+  const headers = corsHeaders(request.headers.get("origin"));
+  return new NextResponse(null, { status: 204, headers });
 }
 
 export async function GET(request: NextRequest) {
+  const headers = corsHeaders(request.headers.get("origin"));
   const q = request.nextUrl.searchParams.get("q");
 
   if (!q || q.trim().length === 0) {
     return NextResponse.json(
       { error: "q parameter is required" },
-      { status: 400, headers: CORS_HEADERS }
+      { status: 400, headers }
     );
   }
 
   if (q.length > MAX_QUERY_LENGTH) {
     return NextResponse.json(
       { error: `Query too long. Maximum ${MAX_QUERY_LENGTH} characters.` },
-      { status: 400, headers: CORS_HEADERS }
+      { status: 400, headers }
     );
   }
 
@@ -59,5 +56,5 @@ export async function GET(request: NextRequest) {
         powered_by: "gtmcanon.com",
       };
 
-  return NextResponse.json(response, { headers: CORS_HEADERS });
+  return NextResponse.json(response, { headers });
 }

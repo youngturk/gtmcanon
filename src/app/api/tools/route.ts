@@ -2,24 +2,21 @@ export const runtime = "edge";
 
 import { NextRequest, NextResponse } from "next/server";
 import { getToolById } from "@/lib/registry";
+import { corsHeaders } from "@/lib/cors";
 
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "https://gtmcanon.com",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
-
-export async function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+export async function OPTIONS(request: NextRequest) {
+  const headers = corsHeaders(request.headers.get("origin"));
+  return new NextResponse(null, { status: 204, headers });
 }
 
 export async function GET(request: NextRequest) {
+  const headers = corsHeaders(request.headers.get("origin"));
   const id = request.nextUrl.searchParams.get("id");
 
   if (!id) {
     return NextResponse.json(
       { error: "id parameter is required. Example: /api/tools?id=send-email" },
-      { status: 400, headers: CORS_HEADERS }
+      { status: 400, headers }
     );
   }
 
@@ -31,7 +28,7 @@ export async function GET(request: NextRequest) {
         error: `Tool "${id}" not found`,
         hint: "Use /api/categories to see available tools, or /api/search?q=... to search",
       },
-      { status: 404, headers: CORS_HEADERS }
+      { status: 404, headers }
     );
   }
 
@@ -46,6 +43,6 @@ export async function GET(request: NextRequest) {
       alternatives: story.alternatives,
       powered_by: "gtmcanon.com",
     },
-    { headers: CORS_HEADERS }
+    { headers }
   );
 }

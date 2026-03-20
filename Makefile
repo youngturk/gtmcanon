@@ -5,7 +5,16 @@ test:
 	bun test
 
 build:
-	bunx next build
+	bun run build
+
+build-cf:
+	bun run build:cf
+
+deploy:
+	bun run build:cf && bunx wrangler pages deploy .next
 
 lint:
 	bunx next lint
+
+kv-create:
+	bunx wrangler kv namespace create ANALYTICS

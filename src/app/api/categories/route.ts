@@ -1,19 +1,16 @@
 export const runtime = "edge";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getCategories } from "@/lib/registry";
+import { corsHeaders } from "@/lib/cors";
 
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "https://gtmcanon.com",
-  "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
-
-export async function OPTIONS() {
-  return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+export async function OPTIONS(request: NextRequest) {
+  const headers = corsHeaders(request.headers.get("origin"));
+  return new NextResponse(null, { status: 204, headers });
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const headers = corsHeaders(request.headers.get("origin"));
   const categories = getCategories();
 
   const summary = categories.map((c) => ({
@@ -30,6 +27,6 @@ export async function GET() {
 
   return NextResponse.json(
     { categories: summary, powered_by: "gtmcanon.com" },
-    { headers: CORS_HEADERS }
+    { headers }
   );
 }

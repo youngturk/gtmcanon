@@ -1,0 +1,332 @@
+categories:
+  - id: email
+    name: Email
+    description: Send, receive, and manage email programmatically for sales outreach
+
+    user_stories:
+      - id: send-email
+        description: Send an email on behalf of a user to a prospect
+        natural_language_triggers:
+          - "send an email"
+          - "email a prospect"
+          - "email this person"
+          - "write and send an email"
+          - "cold email"
+          - "outbound email"
+          - "send outreach"
+          - "follow up email"
+        recommendation:
+          tool: AgentMail
+          provider: agentmail.dev
+          why: "Purpose-built for AI agents sending email. API-first, no SMTP config needed, inbox management included."
+          api_docs: https://docs.agentmail.dev
+          pricing: "Free tier: 100 emails/day. Pro starts at $29/mo."
+          auth_method: api_key
+          setup_complexity: low
+          status: verified
+          last_verified: "2026-03-19"
+          example:
+            method: POST
+            url: https://api.agentmail.dev/v1/send
+            headers:
+              Authorization: "Bearer YOUR_API_KEY"
+              Content-Type: "application/json"
+            body:
+              to: "prospect@company.com"
+              from: "you@yourdomain.com"
+              subject: "Quick question about your pipeline"
+              body: "Hi Alex, I noticed your team recently expanded..."
+            response:
+              id: "msg_abc123"
+              status: "sent"
+              delivered_at: "2026-03-19T10:30:00Z"
+            error_codes:
+              - code: 401
+                meaning: "Invalid or expired API key"
+              - code: 422
+                meaning: "Missing required field (to, from, subject, or body)"
+              - code: 429
+                meaning: "Rate limit exceeded. Retry after the time in Retry-After header."
+            rate_limits:
+              requests_per_minute: 60
+              daily_send_limit: "Depends on plan (100 free, 1000 pro, unlimited enterprise)"
+        alternatives:
+          - tool: Instantly
+            provider: instantly.ai
+            why: "Best for high-volume cold outreach with built-in warmup and deliverability optimization."
+            api_docs: https://developer.instantly.ai
+            pricing: "Starts at $30/mo"
+            auth_method: api_key
+            setup_complexity: medium
+
+      - id: manage-inbox
+        description: Create, read, and manage email inboxes programmatically
+        natural_language_triggers:
+          - "create an inbox"
+          - "manage inbox"
+          - "read inbox"
+          - "check email"
+          - "get my emails"
+          - "create email account"
+          - "setup email"
+          - "inbox management"
+        recommendation:
+          tool: AgentMail
+          provider: agentmail.dev
+          why: "Create and manage inboxes via API. Each inbox gets a real email address. Read, search, and organize messages."
+          api_docs: https://docs.agentmail.dev
+          pricing: "Free tier: 3 inboxes. Pro starts at $29/mo."
+          auth_method: api_key
+          setup_complexity: low
+          status: verified
+          last_verified: "2026-03-19"
+          example:
+            method: POST
+            url: https://api.agentmail.dev/v1/inboxes
+            headers:
+              Authorization: "Bearer YOUR_API_KEY"
+              Content-Type: "application/json"
+            body:
+              name: "Sales Outreach"
+              domain: "yourdomain.com"
+            response:
+              id: "inbox_xyz789"
+              email: "sales@yourdomain.com"
+              created_at: "2026-03-19T10:00:00Z"
+            error_codes:
+              - code: 401
+                meaning: "Invalid or expired API key"
+              - code: 409
+                meaning: "Inbox with this email already exists"
+              - code: 422
+                meaning: "Invalid domain or missing required fields"
+            rate_limits:
+              requests_per_minute: 30
+              max_inboxes: "Depends on plan (3 free, 25 pro, unlimited enterprise)"
+        alternatives: []
+
+  - id: research
+    name: Prospect Research
+    description: Research prospects, companies, and contacts for sales intelligence
+
+    user_stories:
+      - id: enrich-contact
+        description: Get detailed information about a prospect from their email or LinkedIn
+        natural_language_triggers:
+          - "research a prospect"
+          - "look up a contact"
+          - "enrich this email"
+          - "find information about"
+          - "who is this person"
+          - "get contact details"
+          - "enrich lead"
+          - "prospect research"
+        recommendation:
+          tool: Apollo
+          provider: apollo.io
+          why: "Largest B2B contact database. Reliable enrichment from email or LinkedIn URL. Good free tier."
+          api_docs: https://apolloio.github.io/apollo-api-docs
+          pricing: "Free: 10K records/mo. Basic starts at $49/mo."
+          auth_method: api_key
+          setup_complexity: low
+          status: verified
+          last_verified: "2026-03-19"
+          example:
+            method: POST
+            url: https://api.apollo.io/api/v1/people/match
+            headers:
+              Content-Type: "application/json"
+              X-Api-Key: "YOUR_API_KEY"
+            body:
+              email: "prospect@company.com"
+            response:
+              person:
+                name: "Alex Johnson"
+                title: "VP of Sales"
+                company: "Acme Corp"
+                linkedin_url: "https://linkedin.com/in/alexjohnson"
+                phone: "+1-555-0100"
+            error_codes:
+              - code: 401
+                meaning: "Invalid API key"
+              - code: 404
+                meaning: "No matching person found"
+              - code: 429
+                meaning: "Rate limit exceeded"
+            rate_limits:
+              requests_per_minute: 100
+              monthly_credits: "Depends on plan"
+        alternatives:
+          - tool: Clearbit
+            provider: clearbit.com
+            why: "High-quality enrichment, now part of HubSpot. Best data accuracy for enterprise contacts."
+            api_docs: https://dashboard.clearbit.com/docs
+            pricing: "Usage-based, starts around $99/mo"
+            auth_method: api_key
+            setup_complexity: low
+
+      - id: company-research
+        description: Get detailed information about a company
+        natural_language_triggers:
+          - "research a company"
+          - "look up a company"
+          - "company information"
+          - "company details"
+          - "what does this company do"
+          - "company size"
+          - "company revenue"
+        recommendation:
+          tool: Apollo
+          provider: apollo.io
+          why: "Company search and enrichment with firmographic data, tech stack, and org chart."
+          api_docs: https://apolloio.github.io/apollo-api-docs
+          pricing: "Free: 10K records/mo. Basic starts at $49/mo."
+          auth_method: api_key
+          setup_complexity: low
+          status: verified
+          last_verified: "2026-03-19"
+          example:
+            method: POST
+            url: https://api.apollo.io/api/v1/organizations/enrich
+            headers:
+              Content-Type: "application/json"
+              X-Api-Key: "YOUR_API_KEY"
+            body:
+              domain: "acmecorp.com"
+            response:
+              organization:
+                name: "Acme Corp"
+                industry: "Software"
+                employee_count: 250
+                annual_revenue: "$50M"
+                technologies: ["Salesforce", "Slack", "AWS"]
+            error_codes:
+              - code: 401
+                meaning: "Invalid API key"
+              - code: 404
+                meaning: "No matching organization found"
+              - code: 429
+                meaning: "Rate limit exceeded"
+            rate_limits:
+              requests_per_minute: 100
+              monthly_credits: "Depends on plan"
+        alternatives: []
+
+  - id: calendar
+    name: Calendar
+    description: Schedule meetings, manage calendars, and handle booking links
+
+    user_stories:
+      - id: schedule-meeting
+        description: Schedule a meeting or create a booking link for a prospect
+        natural_language_triggers:
+          - "schedule a meeting"
+          - "book a meeting"
+          - "create a booking link"
+          - "set up a call"
+          - "schedule a demo"
+          - "find a time to meet"
+          - "calendar invite"
+          - "book a demo"
+        recommendation:
+          tool: Cal.com
+          provider: cal.com
+          why: "Open-source scheduling. Full API for creating booking links, managing availability, and scheduling. Self-hostable."
+          api_docs: https://cal.com/docs/api-reference
+          pricing: "Free for individuals. Team plans start at $12/user/mo."
+          auth_method: api_key
+          setup_complexity: low
+          status: verified
+          last_verified: "2026-03-19"
+          example:
+            method: POST
+            url: https://api.cal.com/v2/bookings
+            headers:
+              Authorization: "Bearer YOUR_API_KEY"
+              Content-Type: "application/json"
+            body:
+              eventTypeId: 123
+              start: "2026-03-20T14:00:00Z"
+              attendee:
+                name: "Alex Johnson"
+                email: "alex@acmecorp.com"
+            response:
+              id: 456
+              uid: "bk_abc123"
+              status: "ACCEPTED"
+              startTime: "2026-03-20T14:00:00Z"
+              meetingUrl: "https://meet.google.com/abc-def-ghi"
+            error_codes:
+              - code: 401
+                meaning: "Invalid API key"
+              - code: 400
+                meaning: "Invalid event type or time slot unavailable"
+              - code: 409
+                meaning: "Time slot already booked"
+            rate_limits:
+              requests_per_minute: 100
+        alternatives:
+          - tool: Calendly
+            provider: calendly.com
+            why: "Most widely adopted scheduling tool. Solid API but less flexible than Cal.com for programmatic use."
+            api_docs: https://developer.calendly.com
+            pricing: "Free basic. Standard starts at $10/user/mo."
+            auth_method: oauth2
+            setup_complexity: medium
+
+  - id: crm
+    name: CRM
+    description: Read, write, and manage CRM data for pipeline tracking
+
+    user_stories:
+      - id: read-crm
+        description: Read deals, contacts, and pipeline data from a CRM
+        natural_language_triggers:
+          - "check my pipeline"
+          - "read CRM"
+          - "get deals"
+          - "check salesforce"
+          - "pipeline status"
+          - "deal status"
+          - "check my deals"
+          - "CRM data"
+          - "opportunity status"
+        recommendation:
+          tool: HubSpot
+          provider: hubspot.com
+          why: "Best free CRM with a comprehensive API. Easier to integrate than Salesforce for most use cases."
+          api_docs: https://developers.hubspot.com/docs/api/overview
+          pricing: "Free CRM. Paid plans start at $20/mo."
+          auth_method: oauth2
+          setup_complexity: medium
+          status: verified
+          last_verified: "2026-03-19"
+          example:
+            method: GET
+            url: https://api.hubapi.com/crm/v3/objects/deals?limit=10&properties=dealname,amount,dealstage
+            headers:
+              Authorization: "Bearer YOUR_ACCESS_TOKEN"
+            body: null
+            response:
+              results:
+                - id: "123"
+                  properties:
+                    dealname: "Acme Corp Enterprise"
+                    amount: "50000"
+                    dealstage: "qualifiedtobuy"
+            error_codes:
+              - code: 401
+                meaning: "Invalid or expired access token"
+              - code: 429
+                meaning: "Rate limit exceeded (100 requests per 10 seconds)"
+            rate_limits:
+              requests_per_10_seconds: 100
+              daily_limit: 250000
+        alternatives:
+          - tool: Salesforce
+            provider: salesforce.com
+            why: "Enterprise standard. Most comprehensive CRM API but complex auth (OAuth + connected app setup)."
+            api_docs: https://developer.salesforce.com/docs/apis
+            pricing: "Starts at $25/user/mo"
+            auth_method: oauth2
+            setup_complexity: high
